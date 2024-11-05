@@ -1,0 +1,18 @@
+/* Default styles */
+body {
+    background-color: #f0f0f0; /* Example color */
+    color: #333;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #444;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.hbar1 {
+    display: inline;
+    margin: 15px;
+}

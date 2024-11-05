@@ -1,0 +1,29 @@
+{% extends 'carapp/base.html' %}
+
+{% block body_block %}
+<head>
+    <meta charset="UTF-8">
+    <title>Car Details</title>
+</head>
+<body>
+    <h2>Car Type Details</h2>
+
+    {% if cartype %}
+        <p>Following are the Vehicles in {{ cartype.name }} with Cartype No {{ cartype.id }}:</p>
+        <ul>
+            {% if vehicles %}
+                {% for vehicle in vehicles %}
+                    <li>{{ vehicle.car_name }} - {{ vehicle.car_price}}</li>
+                {% endfor %}
+            {% else %}
+                <li>No vehicles available for this car type.</li>
+            {% endif %}
+        </ul>
+    {% else %}
+        <p>Car type not found.</p>
+    {% endif %}
+
+    <!-- Link to go back to the homepage using namespacing -->
+    <p><a href="{% url 'homepage' %}">Back to Home</a></p>
+</body>
+{% endblock %}
