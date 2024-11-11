@@ -4,7 +4,7 @@
     <h2>Available Vehicles</h2>
     <ul>
         {% for vehicle in vehicle_list %}
-            <li>{{ vehicle.car_name }} - ${{ vehicle.car_price }}</li>
+            <li>{{ vehicle.car_name }} - ${{ vehicle.features }}</li>
         {% endfor %}
     </ul>
     <p><a href="{% url 'orderhere' %}">Place a new order</a></p>

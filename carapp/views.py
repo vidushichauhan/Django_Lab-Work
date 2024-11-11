@@ -1,5 +1,11 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from .models import CarType, Vehicle, TeamMember
 from django.shortcuts import render
 
@@ -41,3 +47,29 @@ def vehicles(request):
 
 def orderhere(request):
     return HttpResponse("You can place your order here.")
+
+
+class SignupView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'carapp/signup.html'
+    success_url = reverse_lazy('login_here')
+
+def login_here(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect('homepage')  # Redirect to homepage
+            else:
+                return HttpResponse('Your account is disabled.')
+        else:
+            return HttpResponse('Login details are incorrect.')
+    return render(request, 'carapp/login_here.html')
+
+@login_required
+def logout_here(request):
+    logout(request)
+    return redirect('homepage')
