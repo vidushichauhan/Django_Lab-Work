@@ -19,11 +19,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from carapp import views
-from carapp.views import SignupView, login_here, logout_here
+from carapp.views import SignupView, login_here, logout_here, list_of_orders
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', views.homepage, name='homepage'),  # Homepage
+    path('', SignupView.as_view(), name='signup'),
+    path('/homepage', views.homepage, name='homepage'),  # Homepage
     ##path('vehicles/', views.vehicle_list, name='vehicle_list'),  # Vehicle list
     path('aboutus/', views.aboutus, name='aboutus'),  # About us page
     path('<int:cartype_no>/', views.cardetail, name='cardetail'),  # Car type details
@@ -32,8 +33,9 @@ urlpatterns = [
     path('vehicles/', views.vehicles, name='vehicles'),
     path('orderhere/', views.orderhere, name='orderhere'),
 
-    path('signup/', SignupView.as_view(), name='signup'),
+
 
     path('login/', login_here, name='login_here'),
     path('logout/', logout_here, name='logout_here'),
+    path('myorders/', list_of_orders, name='myorders'),
 ]

@@ -73,3 +73,28 @@ def login_here(request):
 def logout_here(request):
     logout(request)
     return redirect('homepage')
+
+@login_required
+def list_of_orders(request):
+    # Check if the logged-in user is a Buyer
+    try:
+        buyer = request.user.buyer  # Fetch the buyer object for the user
+    except AttributeError:
+        return HttpResponse('You are not registered as a buyer.')
+
+    # Retrieve all orders placed by the buyer
+    orders = buyer.ordervehicle_set.all()
+
+    # Pass orders to the template
+    return render(request, 'carapp/list_of_order.html', {'orders': orders})
+
+def homepage(request):
+    # Increment session counter
+    session_counter = request.session.get('counter', 0)
+    request.session['counter'] = session_counter + 1
+
+    # Set cookie
+    response = render(request, 'carapp/homepage.html', {'counter': session_counter})
+    response.set_cookie('last_visit', 'Welcome!', max_age=10)
+    return response
+
